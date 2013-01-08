@@ -1,3 +1,4 @@
+package GameField;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -10,22 +11,22 @@ import org.junit.Test;
  * @author rana
  *
  */
-public class GameFieldTest{
+public class FieldTest{
 	@Test public void getStrikedStandardKont(){
-		GameField gameField= new GameField();
+		Field gameField= new Field();
 		assertEquals(false, gameField.getStriked());
 	}
 	@Test public void getStrikedTrue(){
-		GameField gameField = new GameField();
+		Field gameField = new Field();
 		gameField.setStriked();
 		assertEquals(true, gameField.getStriked());
 	}
 	@Test public void getValueStandardKont(){
-		GameField gameField = new GameField();
+		Field gameField = new Field();
 		assertNotNull(gameField.getValue());
 	}
 	@Test public void randomValuesBorder(){
-		GameField gameField = new GameField(10);
+		Field gameField = new Field(10);
 		assertTrue(gameField.getValue() < 10);
 	}
 }

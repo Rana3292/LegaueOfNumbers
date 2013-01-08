@@ -1,3 +1,4 @@
+package GameField;
 import java.util.Random;
 
 /**
@@ -8,12 +9,12 @@ import java.util.Random;
  * @author rana
  *
  */
-public class GameField {
-	public GameField(){
+public class Field {
+	public Field(){
 		this(10);
 	}
 	
-	public GameField(int maxRandomValues){
+	public Field(int maxRandomValues){
 		Random r = new Random();
 		value = r.nextInt(maxRandomValues);
 	}
