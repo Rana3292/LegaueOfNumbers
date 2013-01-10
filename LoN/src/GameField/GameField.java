@@ -33,7 +33,7 @@ public class GameField {
 	/**
 	 * @return the width of the gameField.
 	 */
-	public Object getWidth() {
+	public int getWidth() {
 		return width;
 	}
 }
