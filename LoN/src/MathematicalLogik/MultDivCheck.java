@@ -22,34 +22,76 @@ public class MultDivCheck {
 		}
 		//Begin Permutation for Division
 		if(b != 0 && c != 0){
-			if(a/b/c == res || a/c/b == res){
-				return true;
+			if (a%b == 0 && b%c == 0){
+				if(a/b/c == res){ //Associative and kommutative
+					return true;
+				}
 			}
 		}
 		if(a != 0 && c != 0){
-			if(b/a/c == res || b/c/a == res){
-				return true;
+			if (b%a == 0 && a%c == 0){
+				if(b/a/c == res){
+					return true;
+				}
 			}
 		}
 		if(a != 0 && b != 0){
-			if(c/a/b == res || c/b/a == res){
-				return true;
+			if (c%a==0 && (c/a)%b==0){
+				if(c/a/b == res){
+					return true;
+				}
 			}
 		}
 		//Begin Permutation for Division AND Multiplication
 		if(a !=0){
-			if(b/a*c == res || b*c/a == res || c/a*b == res || c*b/a == res){
-				return true;
+			if (b%a == 0){
+				if (b/a*c == res){
+					return true;
+				}
+			}
+			if ((b*c)%a == 0){
+				if (b*c/a == res){
+					return true;
+				}
+			}
+			if (c%a == 0){
+				if (c/a*b == res){
+					return true;
+				}
 			}
 		}
 		if(b !=0){
-			if(a/b*c == res || a*c/b == res || c*a/b == res || c/b*a == res){
-				return true;
+			if (a%b == 0){
+				if (a/b*c == res){
+					return true;
+				}
+			}
+			if ((a*c)%b == 0) {
+				if (a*c/b == res){
+					return true;
+				}
+			}
+			if (c%b == 0){
+				if (c/b*a == res){
+					return true;
+				}
 			}
 		}
 		if(c !=0){
-			if(a*b/c == res || b*a/c == res || b/c*a == res || a/c*b == res){
-				return true;
+			if ((a*b)%c == 0){
+				if (a*b/c == res){
+					return true;
+				}
+			}
+			if ((b*a)%c == 0){
+				if (b*a/c == res){
+					return true;
+				}
+			}
+			if (a%c == 0){
+				if (a/c*b == res){
+					return true;
+				}
 			}
 		}
 		//If Factor is Zero OR no proper Result has been Found the Return Value is False
