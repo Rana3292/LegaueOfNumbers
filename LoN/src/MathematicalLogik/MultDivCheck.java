@@ -44,54 +44,18 @@ public class MultDivCheck {
 		}
 		//Begin Permutation for Division AND Multiplication
 		if(a !=0){
-			if (b%a == 0){
-				if (b/a*c == res){
-					return true;
-				}
-			}
-			if ((b*c)%a == 0){
-				if (b*c/a == res){
-					return true;
-				}
-			}
-			if (c%a == 0){
-				if (c/a*b == res){
-					return true;
-				}
+			if ((b%a == 0 && b/a*c == res) || ((b*c)%a == 0 && b*c/a == res) || (c%a == 0) && c/a*b == res ){
+				return true;
 			}
 		}
 		if(b !=0){
-			if (a%b == 0){
-				if (a/b*c == res){
-					return true;
-				}
-			}
-			if ((a*c)%b == 0) {
-				if (a*c/b == res){
-					return true;
-				}
-			}
-			if (c%b == 0){
-				if (c/b*a == res){
-					return true;
-				}
+			if ((a%b == 0 && a/b*c == res) || ((a*c)%b == 0 && a*c/b == res) || (c%b == 0 && c/b*a == res)){
+				return true;
 			}
 		}
 		if(c !=0){
-			if ((a*b)%c == 0){
-				if (a*b/c == res){
-					return true;
-				}
-			}
-			if ((b*a)%c == 0){
-				if (b*a/c == res){
-					return true;
-				}
-			}
-			if (a%c == 0){
-				if (a/c*b == res){
-					return true;
-				}
+			if (((a*b)%c == 0 && a*b/c == res) || ((b*a)%c == 0 && b*a/c == res) || (a%c == 0 && a/c*b == res)){
+				return true;
 			}
 		}
 		//If Factor is Zero OR no proper Result has been Found the Return Value is False
