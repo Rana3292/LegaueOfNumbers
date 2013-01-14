@@ -66,11 +66,19 @@ public class Board {
 								dialog.setSize(200, 200);
 								if (MultDivPlusMinusCheck.check(intValues[0], intValues[1], intValues[2], 10)){
 									dialog.add(new JLabel("Right!"));
+									for (int i=0; i < 3; i++){
+										int buttonString = Integer.parseInt(values[i].getActionCommand());
+										column = buttonString % getWidthGameField();
+										row = buttonString / getWidthGameField();
+										setStriked(column, row);
+									}
 								}
 								else{
 									dialog.add(new JLabel("False!"));
 								}
 								dialog.setVisible(true);
+								
+								update();
 							}
 						}
 				});
@@ -82,6 +90,9 @@ public class Board {
 		for (int i=0; i < model.getWidth(); i++){
 			for (int j=0; j < model.getHeight(); j++){
 				if (model.getStriked(j,i)){
+					buttons[i][j].setEnabled(false);
+				}
+				else{
 					buttons[i][j].setEnabled(true);
 				}
 			}
@@ -120,6 +131,9 @@ public class Board {
 	
 	private int getValue(int i, int j){
 		return model.getValue(j, i);
+	}
+	private void setStriked(int i, int j){
+		model.setStriked(i, j);
 	}
 	
 	private boolean setValue(JButton value){
