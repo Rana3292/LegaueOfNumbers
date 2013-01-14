@@ -23,7 +23,7 @@ public class Board {
 	
 	public void reset(){
 		model = new GameField();
-		values = new int[3];
+		values = new JButton[3];
 		counterForValue = 0;
 		buttons = new JButton[model.getWidth()][model.getHeight()];
 		int i, j;
@@ -46,7 +46,7 @@ public class Board {
 						int column = buttonid % getWidthGameField();
 						int row = buttonid / getWidthGameField();
 						enableButtons(row, column);
-						if (!setValue(getValue(column, row))){
+						if (!setValue(buttons[row][column])){
 							JDialog dialog = new JDialog();
 							dialog.add(new JLabel("You have choosen three values :)"));
 							dialog.setSize(200, 200);
@@ -74,15 +74,15 @@ public class Board {
 				buttons[i][j].setEnabled(false);
 				//Setting the Buttons around not enabled!
 				if (i == x-1 || i == x+1){ 
-					if ( j == y-1 || (j==y) || j == y+1){
-						if (! model.getStriked(j, i)){
+					if ( j==y){
+						if (! model.getStriked(j, i) && !fieldAlreadyChoosen(buttons[i][j])){
 							buttons[i][j].setEnabled(true);
 						}
 					}
 				}
 				if (x == i){
 					if (j == y-1 || j == y+1){
-						if (! model.getStriked(j, i)){
+						if (! model.getStriked(j, i) && !fieldAlreadyChoosen(buttons[i][j])){
 							buttons[i][j].setEnabled(true);
 						}
 					}
@@ -102,7 +102,7 @@ public class Board {
 		return model.getValue(j, i);
 	}
 	
-	private boolean setValue(int value){
+	private boolean setValue(JButton value){
 		if (counterForValue < 2){
 			values[counterForValue] = value;
 			counterForValue++;
@@ -112,8 +112,17 @@ public class Board {
 		return false;
 	}
 	
+	private boolean fieldAlreadyChoosen(JButton b){
+		for (int i=0; i < counterForValue; i++){
+			if (values[i].equals(b)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private int counterForValue;
-	private int[] values;
+	private JButton[] values;
 	private JButton[][] buttons;
 	private GameField model;
 	private JPanel panel;
