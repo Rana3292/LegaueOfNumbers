@@ -31,7 +31,12 @@ public class Field {
 		striked = true;
 	}
 	
-	
+	public boolean equals(Field f){
+		return (f.getStriked() == getStriked() && f.getValue() == f.getValue());
+	}
+	public int hashCode(){
+		return (getStriked())? value*value : value;
+	}
 
 	private boolean striked;
 	private int value;
