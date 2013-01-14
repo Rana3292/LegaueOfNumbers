@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import GameField.GameField;
+import MathematicalLogik.MultDivPlusMinusCheck;
 
 
 
@@ -52,7 +53,26 @@ public class Board {
 							dialog.setSize(200, 200);
 							dialog.setVisible(true);
 						}
-					}
+					
+						if (check){
+								int[] intValues = new int[3];
+								for (int i=0; i < 3; i++){
+									int buttonString = Integer.parseInt(values[i].getActionCommand());
+									column = buttonString % getWidthGameField();
+									row = buttonString / getWidthGameField();
+									intValues[i] = getValue(row, column);
+								}
+								JDialog dialog = new JDialog();
+								dialog.setSize(200, 200);
+								if (MultDivPlusMinusCheck.check(intValues[0], intValues[1], intValues[2], 10)){
+									dialog.add(new JLabel("Right!"));
+								}
+								else{
+									dialog.add(new JLabel("False!"));
+								}
+								dialog.setVisible(true);
+							}
+						}
 				});
 			}
 		}
@@ -104,11 +124,16 @@ public class Board {
 	
 	private boolean setValue(JButton value){
 		if (counterForValue < 2){
+			check = false;
 			values[counterForValue] = value;
 			counterForValue++;
 			return true;
 		}
+		if (counterForValue == 2){
+			values[2] = value;
+		}
 		counterForValue = 0;
+		check = true;
 		return false;
 	}
 	
@@ -121,6 +146,7 @@ public class Board {
 		return false;
 	}
 	
+	private boolean check; 
 	private int counterForValue;
 	private JButton[] values;
 	private JButton[][] buttons;
