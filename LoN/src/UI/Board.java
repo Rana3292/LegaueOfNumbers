@@ -24,6 +24,11 @@ public class Board {
 			for (int j=0; j < model.getHeight(); j++){
 				buttons[i][j] = new JButton(model.getValue(j, i) + "");
 				buttons[i][j].setSize(50, 50);
+				/* HowTo identify a Button: 
+				 * int Value / model.getWidth() = column
+				 * int Value % model.getWidth() = row 
+				 */
+				buttons[i][j].setActionCommand(i*model.getWidth() + j + ""); 
 				panel.add(buttons[i][j]);
 			}
 		}
@@ -38,6 +43,14 @@ public class Board {
 			}
 		}
 	}
+	
+	public int getHeightGameField(){
+		return model.getHeight();
+	}
+	public int getWidthGameField(){
+		return model.getWidth();
+	}
+	
 	private JButton[][] buttons;
 	private GameField model;
 	private JPanel panel;
