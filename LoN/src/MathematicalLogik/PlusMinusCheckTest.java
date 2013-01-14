@@ -14,10 +14,8 @@ import org.junit.Test;
  *
  */
 public class PlusMinusCheckTest {
-	private PlusMinusCheck pmc;
 	private int a, b, c, d, e, res;
 	@Before public void setUp(){
-		pmc = new PlusMinusCheck();
 		a = 2;
 		b = 3;
 		c = 5;
@@ -28,15 +26,15 @@ public class PlusMinusCheckTest {
 
 	@Test
 	public void AddingThreeNumbers() {
-		assertEquals(true, pmc.check(a, b, c, res));
+		assertEquals(true, PlusMinusCheck.check(a, b, c, res));
 	}
 	@Test
 	public void SubtractThreeNumbers(){
-		assertEquals(true, pmc.check(d, a, b, res));
+		assertEquals(true, PlusMinusCheck.check(d, a, b, res));
 	}
 	@Test
 	public void AddAndSubtract(){
-		assertEquals(true, pmc.check(e, d, c, res));
+		assertEquals(true, PlusMinusCheck.check(e, d, c, res));
 	}
 
 }

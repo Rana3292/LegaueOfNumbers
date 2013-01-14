@@ -16,7 +16,7 @@ public class PlusMinusCheck {
 	 * @param res wanted result
 	 * @return whether it's valid with + and - operations. 
 	 */
-	public boolean check(int a, int b, int c, int res) {
+	public static boolean check(int a, int b, int c, int res) {
 		if (a+b+c==res){ // equals a + c + b; b + a + c; b + c + a; c + a + b; c + b + a;
 			return true;
 		}

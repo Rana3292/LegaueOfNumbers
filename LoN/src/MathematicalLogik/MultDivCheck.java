@@ -16,7 +16,7 @@ public class MultDivCheck {
 	 * @param res wanted result
 	 * @return whether it's valid with * and / operations. 
 	 */
-	public boolean check(int a, int b, int c, int res) {
+	public static boolean check(int a, int b, int c, int res) {
 		if (a*b*c == res){ // Associative property terminates the Rest of the Permutation
 			return true;
 		}
