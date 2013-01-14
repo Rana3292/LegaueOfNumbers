@@ -22,11 +22,11 @@ public class GameFieldTest {
 	
 	@Test
 	public void getHeight() {
-		assertEquals(20, field.getHeight());
+		assertEquals(10, field.getHeight());
 	}
 	@Test
 	public void getWidth(){
-		assertEquals(20, field.getWidth());
+		assertEquals(10, field.getWidth());
 	}
 	@Test
 	public void getHeightQuadraticField(){
