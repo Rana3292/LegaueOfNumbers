@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import GameField.GameField;
@@ -21,6 +23,8 @@ public class Board {
 	
 	public void reset(){
 		model = new GameField();
+		values = new int[3];
+		counterForValue = 0;
 		buttons = new JButton[model.getWidth()][model.getHeight()];
 		int i, j;
 		for (i=0; i < model.getWidth(); i++){
@@ -42,6 +46,12 @@ public class Board {
 						int column = buttonid % getWidthGameField();
 						int row = buttonid / getWidthGameField();
 						enableButtons(row, column);
+						if (!setValue(getValue(column, row))){
+							JDialog dialog = new JDialog();
+							dialog.add(new JLabel("You have choosen three values :)"));
+							dialog.setSize(200, 200);
+							dialog.setVisible(true);
+						}
 					}
 				});
 			}
@@ -88,6 +98,22 @@ public class Board {
 		return model.getWidth();
 	}
 	
+	private int getValue(int i, int j){
+		return model.getValue(j, i);
+	}
+	
+	private boolean setValue(int value){
+		if (counterForValue < 2){
+			values[counterForValue] = value;
+			counterForValue++;
+			return true;
+		}
+		counterForValue = 0;
+		return false;
+	}
+	
+	private int counterForValue;
+	private int[] values;
 	private JButton[][] buttons;
 	private GameField model;
 	private JPanel panel;
