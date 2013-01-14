@@ -14,7 +14,6 @@ import GameField.GameField;
 public class Board {
 	public Board( JPanel	panel){
 		this.panel = panel;
-		this.eventHandler = eventHandler;
 		reset();
 		panel.setSize(model.getWidth()*50, model.getHeight()*50);
 		panel.setLayout(new GridLayout(model.getWidth(), model.getHeight()));
@@ -92,5 +91,4 @@ public class Board {
 	private JButton[][] buttons;
 	private GameField model;
 	private JPanel panel;
-	private EventHandleBoard eventHandler;
 }
