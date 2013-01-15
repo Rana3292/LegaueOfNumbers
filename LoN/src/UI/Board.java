@@ -48,10 +48,11 @@ public class Board {
 						int row = buttonid / getWidthGameField();
 						enableButtons(row, column);
 						if (!setValue(buttons[row][column])){
-							JDialog dialog = new JDialog();
+							/*JDialog dialog = new JDialog();
 							dialog.add(new JLabel("You have choosen three values :)"));
 							dialog.setSize(200, 200);
-							dialog.setVisible(true);
+							dialog.setVisible(true);*/
+							System.out.println("3 Values has been chosen");
 						}
 					
 						if (check){
