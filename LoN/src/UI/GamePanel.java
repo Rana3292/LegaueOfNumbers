@@ -6,14 +6,20 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
 /**GamePanel
@@ -68,6 +74,7 @@ class GamePanel extends JFrame{
 					System.out.println("plusminusMultDiv");
 					init(Board.PLUSMINUSMULTDIV);
 				}
+				startDialog.setTitle("Start Settings");
 				startDialog.setVisible(false);
 			}
 		});
@@ -114,8 +121,41 @@ class GamePanel extends JFrame{
 		this.add(sidebarPanel, BorderLayout.EAST);
 
 		
+		menuBar = new JMenuBar();
+		mHelp = new JMenu("?");
+		menuBar.add(mHelp);
+		miHelp = new JMenuItem("?");
+		miHelp.setMnemonic(KeyEvent.VK_F1);
+		miHelp.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JDialog help = new JDialog();
+				//JTextArea taHelp = new JTextArea()
+				JLabel lHelp = new JLabel();
+				lHelp.setText("<html><body><h1>Willkommen bei der Hilfsfunktion von Legaure of Numbers</h1> Das Spielprinzip ist einfach und faszinierend zu gleich. <br>" +
+						"Es wird dir rechts eine Zahl angezeigt, diese Zahl sollst du in dem linken Feld mit den vielen Zahlen finden.  <br>" +
+						"Dafür stehen dir die Rechenoperationen zur Verfügung, die du am Anfang des Spieles ausgewählt hast.<br>" +
+						"Um die Zahl zu erreichen musst du drei aneinanderliegenden Zahlen so kombinieren (mit den Rechenoperationen), dass die reche Zahl das Ergebnis ist. <br>" +
+						"Das Spiel ist für zwei Spieler ausgelegt. Daher musst du bevor du ins Zahlenfeld klickst, rechts auf den Button mit deinem Spieler(1 oder 2) klicken. " +
+						"<br>Liegst du richtig, kriegst du den Punkt. Solltest du dich verrechnet haben, kriegt dein Gegner den Punkt <br>Jetzt steht dem Spielspaß nichts mehr im Wege! Los!" +
+						"</body></html>");
+				help.add(lHelp);
+				help.setSize(400,400);
+				help.setVisible(true);
+				
+			}
+		});
+		mHelp.add(miHelp);
+		miWrittenBy = new JMenuItem("Wir");
+		miWrittenBy.setMnemonic(KeyEvent.VK_W);
+		mHelp.add(miWrittenBy);
+		menuBar.setVisible(true);
+		this.setJMenuBar(menuBar);
+		
 		board.addObserver(sidebar);
 		
+		this.setTitle("Legaue of Numbers");
 		this.setSize(600, 600);
 		this.pack();
 		this.setVisible(true);
@@ -135,6 +175,10 @@ class GamePanel extends JFrame{
 	private SideBar sidebar;
 	private static final long serialVersionUID = -5533014914272850813L;
 	
+	private JMenuBar menuBar;
+	private JMenu mHelp;
+	private JMenuItem miHelp;
+	private JMenuItem miWrittenBy;
 	public static void main(String[] args) {
 		new GamePanel();
 	}

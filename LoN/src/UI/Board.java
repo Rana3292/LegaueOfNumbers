@@ -16,6 +16,8 @@ import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
+
 import GameField.GameField;
 import MathematicalLogik.MultDivCheck;
 import MathematicalLogik.MultDivPlusMinusCheck;
@@ -242,6 +244,14 @@ public class Board extends Observable{
 		return model.getValue(j, i);
 	}
 	/**
+	 * returns whether the field is striked
+	 * @param i width
+	 * @param j height
+	 */
+	private boolean getStriked(int i, int j){
+		return model.getStriked(j, i);
+	}
+	/**
 	 * Set the field striked.
 	 * @param i width
 	 * @param j height
@@ -325,6 +335,7 @@ public class Board extends Observable{
 			for (int j=0; j < model.getWidth(); j++){
 				if (i+2 < model.getWidth()){
 					if (gameValue == PLUSMINUS){
+						
 						if (PlusMinusCheck.check(getValue(i,j),getValue(i+1,j),getValue(i+2,j), random)){
 							return true;
 						}

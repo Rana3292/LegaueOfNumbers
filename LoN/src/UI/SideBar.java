@@ -121,7 +121,10 @@ public class SideBar implements Observer {
 		movePlayer = -1;
 		lPlayerPoints.setText("Player A: " + pointsPlayerA + " | Player B: " + pointsPlayerB);
 	}
-	
+	/**
+	 * Set the Design of a component in the following way:
+	 * handwritting font, background = dark_gray, foreground = white
+	 */
 	private void setDesign(Component c){
 		c.setFont(handwritting);
 		c.setBackground(Color.DARK_GRAY);
