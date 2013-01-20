@@ -13,8 +13,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -30,21 +33,35 @@ import javax.swing.JPanel;
  */
 public class SideBar implements Observer {
 	public SideBar(JPanel panel, Board board){
-				//Schriftart laden
-				try {
-					InputStream myStream = new BufferedInputStream(new FileInputStream("GrungeHandwriting.ttf"));
-					handwritting = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 30);
-					/*InputStream is = this.getClass().getResourceAsStream("GrungeHandwriting.ttf");
-					//File fontFile = new File(this.getClass().getResource("../../../Fonts/Handwritting.ttf").toURI());
-					this.handwritting = Font.createFont(Font.PLAIN, is);//.deriveFont(Font.PLAIN, 20f);*/
-				} catch (FontFormatException e) {
-					System.out.println("Probleme mit dem Lesen der Schriftart");
-					e.printStackTrace();
-				} catch (IOException e) {
-					System.out.println("Probleme beim I/O");
-					e.printStackTrace();
-				} 
-				//Schriftart verwenden
+		//Schriftart laden
+		InputStream myStream = null;
+		try {
+			Path Pat = Paths.get(Board.class.getResource("GrungeHandwriting.ttf").toString());
+			String ParsedPat = Pat.toString();
+			myStream = new BufferedInputStream(new FileInputStream(ParsedPat)); 	 
+			/*InputStream is = this.getClass().getResourceAsStream("GrungeHandwriting.ttf");
+			//File fontFile = new File(this.getClass().getResource("../../../Fonts/Handwritting.ttf").toURI());
+			this.handwritting = Font.createFont(Font.PLAIN, is);//.deriveFont(Font.PLAIN, 20f);*/
+		} catch (IOException e) {
+			System.out.println("Probleme beim I/O");
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			try {
+				myStream = new BufferedInputStream(new FileInputStream("GrungeHandwriting.ttf"));
+			} catch (FileNotFoundException e1) {
+				System.out.println("File konnte nicht gefunden werden.");
+				e1.printStackTrace();
+			}
+		}
+		try {
+			handwritting = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 30);
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
 		pointsPlayerA =0;
 		pointsPlayerB = 0;
@@ -126,7 +143,9 @@ public class SideBar implements Observer {
 	 * handwritting font, background = dark_gray, foreground = white
 	 */
 	private void setDesign(Component c){
-		c.setFont(handwritting);
+		if (handwritting != null){
+			c.setFont(handwritting);
+		}
 		c.setBackground(Color.DARK_GRAY);
 		c.setForeground(Color.white);
 	}

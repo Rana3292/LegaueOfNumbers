@@ -1,12 +1,14 @@
 package UI;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileInputStream;
@@ -52,24 +54,36 @@ public class Board extends Observable{
 		this.maxNumber = maxNumber;
 		
 		//Schriftart laden
+		InputStream myStream = null;
 		try {
 			Path Pat = Paths.get(Board.class.getResource("GrungeHandwriting.ttf").toString());
 			String ParsedPat = Pat.toString();
-			InputStream myStream = new BufferedInputStream(new FileInputStream(ParsedPat)); 	 
-			//InputStream myStream = new BufferedInputStream(new FileInputStream("GrungeHandwriting.ttf"));
-			handwritting = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 30);
+			myStream = new BufferedInputStream(new FileInputStream(ParsedPat)); 	 
 			/*InputStream is = this.getClass().getResourceAsStream("GrungeHandwriting.ttf");
 			//File fontFile = new File(this.getClass().getResource("../../../Fonts/Handwritting.ttf").toURI());
 			this.handwritting = Font.createFont(Font.PLAIN, is);//.deriveFont(Font.PLAIN, 20f);*/
-		} catch (FontFormatException e) {
-			System.out.println("Probleme mit dem Lesen der Schriftart");
-			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println("Probleme beim I/O");
 			e.printStackTrace();
-		} 
+		} catch (NullPointerException e){
+			try {
+				myStream = new BufferedInputStream(new FileInputStream("GrungeHandwriting.ttf"));
+			} catch (FileNotFoundException e1) {
+				System.out.println("File konnte nicht gefunden werden.");
+				e1.printStackTrace();
+			}
+		}
+		try {
+			handwritting = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 30);
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//Schriftart verwenden
-		panel.setFont(this.handwritting);
+		setDesign(panel);
 		reset();
 		panel.setSize(model.getWidth()*50, model.getHeight()*50);
 		panel.setLayout(new GridLayout(model.getWidth(), model.getHeight()));
@@ -96,9 +110,7 @@ public class Board extends Observable{
 				 * int Value % model.getWidth() = column 
 				 */
 				buttons[i][j].setActionCommand(i*model.getWidth() + j + ""); 
-				buttons[i][j].setFont(this.handwritting);
-				buttons[i][j].setBackground(Color.darkGray);
-				buttons[i][j].setForeground(Color.white);
+				setDesign(buttons[i][j]);
 				panel.add(buttons[i][j]);
 				buttons[i][j].addActionListener(new ActionListener() {
 					
@@ -390,7 +402,17 @@ public class Board extends Observable{
 		}
 		return false;
 	}
-	
+	/**
+	 * Set the Design of a component in the following way:
+	 * handwritting font, background = dark_gray, foreground = white
+	 */
+	private void setDesign(Component c){
+		if (handwritting != null){
+			c.setFont(handwritting);
+		}
+		c.setBackground(Color.DARK_GRAY);
+		c.setForeground(Color.white);
+	}
 	private boolean validAnswer;
 	private boolean check; 
 	private int counterForValue;
