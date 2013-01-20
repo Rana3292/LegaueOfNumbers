@@ -92,37 +92,34 @@ public class Board extends Observable{
 									row = buttonString / getWidthGameField();
 									intValues[i] = getValue(row, column);
 								}
-								JDialog dialog = new JDialog();
-								dialog.setSize(200, 200);
 								boolean checked = false;
 								if (gameValue == PLUSMINUS){
 									if (PlusMinusCheck.check(intValues[0], intValues[1], intValues[2], actualSearchedNumber)){
-										dialog.add(new JLabel("Right!"));
+										validAnswer = true;
 										striking();
 										checked = true;
 									}
 								}
 								if (gameValue == MULITDIV){
 									if (MultDivCheck.check(intValues[0], intValues[1], intValues[2], actualSearchedNumber)){
-										dialog.add(new JLabel("Right!"));
+										validAnswer = true;
 										striking();
 										checked = true;
 									}
 								}
 								if (gameValue == PLUSMINUSMULTDIV){
 									if (MultDivPlusMinusCheck.check(intValues[0], intValues[1], intValues[2], actualSearchedNumber)){
-										dialog.add(new JLabel("Right!"));
+										validAnswer = true;
 										striking();
 										checked = true;
 									}
 								}
 								if (!checked){
-									dialog.add(new JLabel("False!"));
+									validAnswer = false;
 								}
 								else{
 									createNewNumber();
 								}
-								dialog.setVisible(true);
 								
 								update();
 								setChanged();
@@ -202,6 +199,10 @@ public class Board extends Observable{
 	/**
 	 * Create a new number by calling method randomNumber();
 	 */
+	public boolean getValidAnswer(){
+		return validAnswer;
+	}
+	
 	private void createNewNumber(){
 		System.out.println("New generated number " + randomNumber());
 	}
@@ -348,7 +349,7 @@ public class Board extends Observable{
 		return false;
 	}
 	
-	
+	private boolean validAnswer;
 	private boolean check; 
 	private int counterForValue;
 	private int gameValue;
