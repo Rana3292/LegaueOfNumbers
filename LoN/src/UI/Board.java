@@ -20,7 +20,6 @@ import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
 
 import GameField.GameField;
 import MathematicalLogik.MultDivCheck;
@@ -52,6 +51,7 @@ public class Board extends Observable{
 		this.panel = panel;
 		this.gameValue = gameValue;
 		this.maxNumber = maxNumber;
+		handwritting = null;
 		
 		//Schriftart laden
 		InputStream myStream = null;

@@ -33,6 +33,7 @@ import javax.swing.JPanel;
  */
 public class SideBar implements Observer {
 	public SideBar(JPanel panel, Board board){
+		handwritting = null;
 		//Schriftart laden
 		InputStream myStream = null;
 		try {
