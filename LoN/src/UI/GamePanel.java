@@ -30,6 +30,8 @@ class GamePanel extends JFrame{
 		sidebar = new SideBar(sidebarPanel, board);
 		this.add(sidebarPanel, BorderLayout.EAST);
 		
+		board.addObserver(sidebar);
+		
 		this.setSize(600, 600);
 		this.setVisible(true);
 	}

@@ -3,6 +3,7 @@ package UI;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -17,7 +18,7 @@ import MathematicalLogik.PlusMinusCheck;
 
 
 
-public class Board {
+public class Board extends Observable{
 	public final static int PLUSMINUS = 1;
 	public final static int MULITDIV = 2;
 	public final static int PLUSMINUSMULTDIV = 3;
@@ -81,7 +82,6 @@ public class Board {
 										dialog.add(new JLabel("Right!"));
 										striking();
 										checked = true;
-										
 									}
 								}
 								if (gameValue == MULITDIV){
@@ -107,6 +107,8 @@ public class Board {
 								dialog.setVisible(true);
 								
 								update();
+								setChanged();
+								notifyObservers(actualSearchedNumber);
 							}
 						}
 				});
