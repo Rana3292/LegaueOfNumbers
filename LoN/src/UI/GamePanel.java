@@ -2,6 +2,7 @@ package UI;
 
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -108,11 +109,15 @@ class GamePanel extends JFrame{
 		
 		sidebarPanel = new JPanel();
 		sidebar = new SideBar(sidebarPanel, board);
+		sidebarPanel.setSize(150, board.getHeightGameField()*50);
+		sidebarPanel.setMinimumSize(new Dimension(150, board.getHeightGameField()*50));
 		this.add(sidebarPanel, BorderLayout.EAST);
+
 		
 		board.addObserver(sidebar);
 		
 		this.setSize(600, 600);
+		this.pack();
 		this.setVisible(true);
 	}
 	

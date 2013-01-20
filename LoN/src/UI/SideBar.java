@@ -4,11 +4,13 @@
 package UI;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -24,10 +26,15 @@ public class SideBar implements Observer {
 		this.board = board;
 		searchNumber= new JLabel(board.getActualSearchedNumber() + "");
 		lValidNumber = new JLabel();
+		lValidNumber.setIcon(new ImageIcon("richtig.jpg"));
 		
+
 		panel.add(searchNumber);
 		panel.add(lValidNumber);
+
 		
+		panel.setMinimumSize(new Dimension(150, board.getHeightGameField()*50));
+		panel.setSize(150, board.getHeightGameField()*50);
 		panel.setVisible(true);
 	}
 	/**
@@ -36,11 +43,12 @@ public class SideBar implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		searchNumber.setText(arg+"");
+		
 		if (board.getValidAnswer()){
-			lValidNumber.setText("Gut gemacht!");
+			lValidNumber.setIcon(new ImageIcon("richtig.jpg"));
 		}
 		else{
-			lValidNumber.setText("Nochmal probieren!");
+			lValidNumber.setIcon(new ImageIcon("falsch.jpg"));
 		}
 	}
 	
@@ -48,4 +56,5 @@ public class SideBar implements Observer {
 	private Board board;
 	private JLabel searchNumber;
 	private JLabel lValidNumber;
+
 }

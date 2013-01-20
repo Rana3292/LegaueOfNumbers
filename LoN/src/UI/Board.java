@@ -1,14 +1,19 @@
 package UI;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileInputStream;
 import java.util.Observable;
 import java.util.Random;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import GameField.GameField;
@@ -28,6 +33,7 @@ public class Board extends Observable{
 	public final static int PLUSMINUS = 1;
 	public final static int MULITDIV = 2;
 	public final static int PLUSMINUSMULTDIV = 3;
+	private Font handwritting;
 	
 	/**
 	 * 
@@ -40,6 +46,23 @@ public class Board extends Observable{
 		this.panel = panel;
 		this.gameValue = gameValue;
 		this.maxNumber = maxNumber;
+		
+		//Schriftart laden
+		try {
+			InputStream myStream = new BufferedInputStream(new FileInputStream("GrungeHandwriting.ttf"));
+			handwritting = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 30);
+			/*InputStream is = this.getClass().getResourceAsStream("GrungeHandwriting.ttf");
+			//File fontFile = new File(this.getClass().getResource("../../../Fonts/Handwritting.ttf").toURI());
+			this.handwritting = Font.createFont(Font.PLAIN, is);//.deriveFont(Font.PLAIN, 20f);*/
+		} catch (FontFormatException e) {
+			System.out.println("Probleme mit dem Lesen der Schriftart");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Probleme beim I/O");
+			e.printStackTrace();
+		} 
+		//Schriftart verwenden
+		panel.setFont(this.handwritting);
 		reset();
 		panel.setSize(model.getWidth()*50, model.getHeight()*50);
 		panel.setLayout(new GridLayout(model.getWidth(), model.getHeight()));
@@ -66,6 +89,9 @@ public class Board extends Observable{
 				 * int Value % model.getWidth() = column 
 				 */
 				buttons[i][j].setActionCommand(i*model.getWidth() + j + ""); 
+				buttons[i][j].setFont(this.handwritting);
+				buttons[i][j].setBackground(Color.darkGray);
+				buttons[i][j].setForeground(Color.white);
 				panel.add(buttons[i][j]);
 				buttons[i][j].addActionListener(new ActionListener() {
 					
