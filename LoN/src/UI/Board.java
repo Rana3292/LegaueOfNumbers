@@ -10,6 +10,8 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileInputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Observable;
 import java.util.Random;
 
@@ -51,7 +53,10 @@ public class Board extends Observable{
 		
 		//Schriftart laden
 		try {
-			InputStream myStream = new BufferedInputStream(new FileInputStream("GrungeHandwriting.ttf"));
+			Path Pat = Paths.get(Board.class.getResource("GrungeHandwriting.ttf").toString());
+			String ParsedPat = Pat.toString();
+			InputStream myStream = new BufferedInputStream(new FileInputStream(ParsedPat)); 	 
+			//InputStream myStream = new BufferedInputStream(new FileInputStream("GrungeHandwriting.ttf"));
 			handwritting = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 30);
 			/*InputStream is = this.getClass().getResourceAsStream("GrungeHandwriting.ttf");
 			//File fontFile = new File(this.getClass().getResource("../../../Fonts/Handwritting.ttf").toURI());
