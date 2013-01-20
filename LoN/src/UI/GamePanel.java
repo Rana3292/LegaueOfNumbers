@@ -20,12 +20,13 @@ class GamePanel extends JFrame{
 		dialog.setVisible(true);*/
 		
 		boardPanel = new JPanel();
-		new Board(boardPanel, Board.PLUSMINUS, 10);
+		board = new Board(boardPanel, Board.PLUSMINUS, 10);
 		this.add(boardPanel);
 		this.setSize(600, 600);
 		this.setVisible(true);
 	}
 	private JPanel boardPanel;
+	private Board board;
 	private static final long serialVersionUID = -5533014914272850813L;
 	
 	public static void main(String[] args) {
