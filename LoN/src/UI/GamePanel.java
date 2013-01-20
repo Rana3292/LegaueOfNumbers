@@ -7,11 +7,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-
+/**GamePanel
+ * A graphical userinterface for the Game.
+ * The Main of the Game.
+ * @author rana
+ *
+ */
 
 class GamePanel extends JFrame{
 
-
+/** Costum constructor for the GamePanel
+ * 
+ */
 	public GamePanel(){
 		super();
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

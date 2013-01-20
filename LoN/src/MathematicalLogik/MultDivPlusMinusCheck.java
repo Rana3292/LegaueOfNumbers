@@ -1,7 +1,18 @@
 package MathematicalLogik;
 
+/**
+ * @author rana
+ *
+ */
 public class MultDivPlusMinusCheck {
 
+	/**
+	 * @param c first value
+	 * @param b second value
+	 * @param a third value
+	 * @param res searched value
+	 * @return whether it is possible to calculate the first, second and third value to the result with +, -, * and /. 
+	 */
 	public static boolean check(int c, int b, int a, int res) {
 		if (MultDivCheck.check(a, b, c, res))
 			return true;

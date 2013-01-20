@@ -16,12 +16,25 @@ import MathematicalLogik.MultDivCheck;
 import MathematicalLogik.MultDivPlusMinusCheck;
 import MathematicalLogik.PlusMinusCheck;
 
-
+/** Board represents the Graphical Userinterface of the GameField.
+ * Implements Observable so that an other graphical userinterface can get the updates of the board.
+ * The class implements the creation of a new random number for playing Legaue of Numbers.
+ * 
+ * @author rana
+ *
+ */
 
 public class Board extends Observable{
 	public final static int PLUSMINUS = 1;
 	public final static int MULITDIV = 2;
 	public final static int PLUSMINUSMULTDIV = 3;
+	
+	/**
+	 * 
+	 * @param panel A JPanel for the JButtons of the GameField
+	 * @param gameValue must be a static final int of the class. Determine which mathematical operations are allowed.
+	 * @param maxNumber specifies the maximum of the values on a Field (the Buttons). 
+	 */
 	
 	public Board( JPanel	panel, int gameValue, int maxNumber){
 		this.panel = panel;
@@ -31,7 +44,12 @@ public class Board extends Observable{
 		panel.setSize(model.getWidth()*50, model.getHeight()*50);
 		panel.setLayout(new GridLayout(model.getWidth(), model.getHeight()));
 	}
-	
+	/** Creates a new GameField.
+	 * An 2-dimensional JButtonArray of the size 10*10 and fill it with the values of the GameField.
+	 * Every Button has an overwritten ActionListener which count how many buttons are clicked. If 3 Buttons are clicked, it will controll whether it is a valid game move for the gameMode (gameValue in constructor).
+	 * If the move is valid, it will create a new random number. 
+	 * This method notify the observers.
+	 */
 	public void reset(){
 		model = new GameField();
 		values = new JButton[3];
@@ -115,6 +133,9 @@ public class Board extends Observable{
 			}
 		}
 	}
+	/** Updates the GUI of the Board (Enabling of the Buttons)
+	 *  
+	 */
 	
 	public void update(){
 		for (int i=0; i < model.getWidth(); i++){
@@ -129,6 +150,12 @@ public class Board extends Observable{
 		}
 	}
 	
+	/**
+	 * Enable all buttons around the clicked button
+	 * @param x int value for the width
+	 * @param y int value for the height
+	 * 
+	 */
 	public void enableButtons(int x, int y){
 		for (int i=0; i < model.getWidth(); i++){
 			for (int j=0; j < model.getHeight(); j++){
@@ -151,26 +178,55 @@ public class Board extends Observable{
 			}
 		}
 	}
-	
+	/**
+	 * 
+	 * @return the height of the GameField
+	 */
 	public int getHeightGameField(){
 		return model.getHeight();
 	}
+	/**
+	 * 
+	 * @return the width of the GameField
+	 */
 	public int getWidthGameField(){
 		return model.getWidth();
 	}
+	/**
+	 * 
+	 * @return the actual Number wich should be searched
+	 */
 	public int getActualSearchedNumber(){
 		return actualSearchedNumber;
 	}
-	public void createNewNumber(){
+	/**
+	 * Create a new number by calling method randomNumber();
+	 */
+	private void createNewNumber(){
 		System.out.println("New generated number " + randomNumber());
 	}
-	
+	/**
+	 * 
+	 * @param i width
+	 * @param j height
+	 * @return the value of the model
+	 */
 	private int getValue(int i, int j){
 		return model.getValue(j, i);
 	}
+	/**
+	 * Set the field striked.
+	 * @param i width
+	 * @param j height
+	 */
 	private void setStriked(int i, int j){
 		model.setStriked(i, j);
 	}
+	/**
+	 * Could change the value of a JButton
+	 * @param the button which should be checked
+	 * @return counterForValue < 2 -> true else false
+	 */
 	private boolean setValue(JButton value){
 		if (counterForValue < 2){
 			check = false;
@@ -185,7 +241,11 @@ public class Board extends Observable{
 		check = true;
 		return false;
 	}
-	
+	/**
+	 * Checks whether an JButton is choosen an second time
+	 * @param b JButton which should controlled
+	 * @return true if the JButton is already choosen else false.
+	 */
 	private boolean fieldAlreadyChoosen(JButton b){
 		for (int i=0; i < counterForValue; i++){
 			if (values[i].equals(b)){
@@ -194,7 +254,9 @@ public class Board extends Observable{
 		}
 		return false;
 	}
-	
+	/** Set the clicked values as striked
+	 * 
+	 */
 	private void striking(){
 		for (int i=0; i < 3; i++){
 			int buttonString = Integer.parseInt(values[i].getActionCommand());
@@ -203,6 +265,11 @@ public class Board extends Observable{
 			setStriked(column, row);
 		}
 	}
+	/**
+	 * Creates a new random number. The maximum is the possible maximum number with the game config.
+	 * e.g. MaxNumber is ten and only plus and minus is allowed: 10 + 10 + 10 = 30.
+	 * @return the new random number, which can be build on the game Board.
+	 */
 	
 	private int randomNumber(){
 		Random r = new Random();
@@ -221,6 +288,11 @@ public class Board extends Observable{
 		actualSearchedNumber = ret;
 		return ret;
 	}
+	/**
+	 * 
+	 * @param random an potential value for checking whether the value is valid for the game.
+	 * @return whether the random number can be computate on the build.
+	 */
 	private boolean controllRandomNumber(int random){
 		for (int i=0; i < model.getHeight(); i++){
 			for (int j=0; j < model.getWidth(); j++){

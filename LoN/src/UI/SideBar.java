@@ -9,7 +9,8 @@ import java.util.Observer;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
+/** SideBar
+ * A SideBar with additional informations for the game like the number which should be searched.
  * @author rana
  *
  */
@@ -21,7 +22,9 @@ public class SideBar implements Observer {
 		
 		panel.add(searchNumber);
 	}
-	
+	/**
+	 * Updates the Graphical Userinterface 
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		searchNumber.setText(arg+"");
