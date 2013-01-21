@@ -18,6 +18,8 @@ import java.util.Observable;
 import java.util.Random;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -260,6 +262,7 @@ public class Board extends Observable{
 		System.out.println(counter);
 		if (counter == 0){
 			update();
+			counterForValue = 0;
 			return true;
 		}
 		return false;
@@ -346,16 +349,23 @@ public class Board extends Observable{
 		int ret = 0;
 		int max = 0;
 		if (gameValue == PLUSMINUS){
-			max = 3 * maxNumber;
+			max = 3 * (maxNumber-1);
 		}
 		if (gameValue == MULITDIV || gameValue == PLUSMINUSMULTDIV){
-			max = maxNumber * maxNumber * maxNumber;
+			max = (maxNumber-1) * (maxNumber-1) * (maxNumber-1);
 		}
-		ret = r.nextInt(max);
-		while (! controllRandomNumber(ret)){
+		for (int i=0; i < 10;  i++){
 			ret = r.nextInt(max);
+			if (controllRandomNumber(ret)){
+				actualSearchedNumber = ret;
+				return ret;
+			}
 		}
-		actualSearchedNumber = ret;
+		JDialog dialog = new JDialog();
+		dialog.add(new JLabel("Time for a new Game!"));
+		dialog.setSize(200,200);
+		dialog.setVisible(true);
+		
 		return ret;
 	}
 	/**
@@ -372,19 +382,19 @@ public class Board extends Observable{
 							switch (gameValue){
 							case PLUSMINUS:
 								if (PlusMinusCheck.check(getValue(i,j),getValue(i+1,j),getValue(i+2,j), random)){
-									System.out.println("i " + i + "j " + j);
+									System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+2 + ";" + j);
 									return true;
 								}
 								break;
 							case MULITDIV:
 								if (MultDivCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+2,j), random)){
-									System.out.println("i " + i + "j " + j);
+									System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+2 + ";" + j);
 									return true;
 								}
 								break;
 							case PLUSMINUSMULTDIV:
 								if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+2, j), random)){
-									System.out.println("i " + i + "j " + j);
+									System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+2 + ";" + j);
 									return true;
 								}
 								break;
@@ -397,17 +407,17 @@ public class Board extends Observable{
 					if (!(getStriked(i, j) || getStriked(i, j+1) || getStriked(i, j+2))){
 						switch (gameValue){
 						case PLUSMINUS: if (PlusMinusCheck.check(getValue(i,j), getValue(i,j+1), getValue(i, j+2), random)){
-							System.out.println("i " + i + "j " + j);
+							System.out.println("i " + i + "j " + j + " | " + i + ";" + j+1 + "|" + i + ";" + j+2);
 							return true;
 						}
 							break;
 						case MULITDIV: if (MultDivCheck.check(getValue(i,j), getValue(i,j+1), getValue(i, j+2), random)){
-							System.out.println("i " + i + "j " + j);
+							System.out.println("i " + i + "j " + j + " | " + i + ";" + j+1 + "|" + i + ";" + j+2);
 							return true;
 						}
 							break;
 						case PLUSMINUSMULTDIV: if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i, j+1), getValue(i, j+2), random)){
-							System.out.println("i " + i + "j " + j);
+							System.out.println("i " + i + "j " + j + " | " + i + ";" + j+1 + "|" + i + ";" + j+2);
 							return true;
 						}
 							break;
@@ -418,17 +428,17 @@ public class Board extends Observable{
 					if (! (getStriked(i, j) || getStriked(i+1, j) || getStriked(i+1, j+1))){
 						switch (gameValue){
 						case PLUSMINUS: if (PlusMinusCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1,j+1), random)){
-							System.out.println("i " + i + "j " + j);
+							System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
 							return true;
 						}
 							break;
 						case MULITDIV: if (MultDivCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1, j+1), random)){
-							System.out.println("i " + i + "j " + j);
+							System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
 							return true;
 						}
 							break;
 						case PLUSMINUSMULTDIV: if (MultDivPlusMinusCheck.check(getValue(i,j),getValue(i+1, j), getValue(i+1, j+1), random)){
-							System.out.println("i " + i + "j " + j);
+							System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
 							return true;
 						}
 							break;
@@ -438,19 +448,19 @@ public class Board extends Observable{
 						switch(gameValue){
 						case PLUSMINUS: 
 							if (PlusMinusCheck.check(getValue(i,j), getValue(i, j+1), getValue(i+1, j), random)){
-								System.out.println("i " + i + "j " + j);
+								System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
 								return true;
 							}
 							break;
 						case MULITDIV:
 							if (MultDivCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1, j+1), random)){
-								System.out.println("i " + i + "j " + j);
+								System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
 								return true;
 							}
 							break;
 						case PLUSMINUSMULTDIV:
 							if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+1, j+1), random)){
-								System.out.println("i " + i + "j " + j);
+								System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
 								return true;
 							}
 							break;
