@@ -32,7 +32,7 @@ import javax.swing.JPanel;
  *
  */
 public class SideBar implements Observer {
-	public SideBar(JPanel panel, Board board){
+	public SideBar(JPanel panel, final Board board){
 		handwritting = null;
 		//Schriftart laden
 		InputStream myStream = null;
@@ -76,7 +76,7 @@ public class SideBar implements Observer {
 		lValidNumber = new JLabel();
 		//lValidNumber.setIcon(new ImageIcon("richtig.png"));
 		
-		pPlayers = new JPanel(new GridLayout(3,1));
+		pPlayers = new JPanel(new GridLayout(4,1));
 		setDesign(pPlayers);
 		lPlayerPoints = new JLabel("Player A: " + pointsPlayerA + " | Player B: " + pointsPlayerB);
 		setDesign(lPlayerPoints);
@@ -98,9 +98,19 @@ public class SideBar implements Observer {
 				movePlayer = moveByB;
 			}
 		});
+		bReset = new JButton("Reset");
+		bReset.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				board.checkReset();
+			}
+		});
+		setDesign(bReset);
 		pPlayers.add(bPlayerA);
 		pPlayers.add(bPlayerB);
 		pPlayers.add(lPlayerPoints);
+		pPlayers.add(bReset);
 		pPlayers.setVisible(true);
 		panel.add(searchNumber);
 		panel.add(lValidNumber);
@@ -161,6 +171,7 @@ public class SideBar implements Observer {
 	private JLabel lPlayerPoints;
 	private JButton bPlayerA;
 	private JButton bPlayerB;
+	private JButton bReset;
 	private int movePlayer;
 	private Font handwritting;
 	private static final int moveByA = 0;
