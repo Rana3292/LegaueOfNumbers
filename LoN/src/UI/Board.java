@@ -352,50 +352,70 @@ public class Board extends Observable{
 			for (int j=0; j < model.getWidth(); j++){
 				if (i+2 < model.getWidth()){
 					if (gameValue == PLUSMINUS){
-						
-						if (PlusMinusCheck.check(getValue(i,j),getValue(i+1,j),getValue(i+2,j), random)){
-							return true;
-						}
+						if (!getStriked(i, j) && !getStriked(i+1, j )&& !getStriked(i+2, j)){
+							switch (gameValue){
+							case PLUSMINUS:
+								if (PlusMinusCheck.check(getValue(i,j),getValue(i+1,j),getValue(i+2,j), random))
+									return true;
+								break;
+							case MULITDIV:
+								if (MultDivCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+2,j), random))
+									return true;
+								break;
+							case PLUSMINUSMULTDIV:
+								if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+2, j), random))
+									return true;
+								break;
+							}
 					}
-					if (gameValue == MULITDIV){
-						if (MultDivCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+2,j), random))
-							return true;
-					}
-					if (gameValue == PLUSMINUSMULTDIV){
-						if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+2, j), random))
-							return true;
-					}
+					
 				}
 				if (j+2 < model.getHeight()){
-					switch (gameValue){
-					case PLUSMINUS: if (PlusMinusCheck.check(getValue(i,j), getValue(i,j+1), getValue(i, j+2), random))
-						return true;
-						break;
-					case MULITDIV: if (MultDivCheck.check(getValue(i,j), getValue(i,j+1), getValue(i, j+2), random))
-						return true;
-						break;
-					case PLUSMINUSMULTDIV: if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i, j+1), getValue(i, j+2), random))
-						return true;
-						break;
+					
+					if (!getStriked(i, j) && !getStriked(i, j+1) && !getStriked(i, j+2)){
+						switch (gameValue){
+						case PLUSMINUS: if (PlusMinusCheck.check(getValue(i,j), getValue(i,j+1), getValue(i, j+2), random))
+							return true;
+							break;
+						case MULITDIV: if (MultDivCheck.check(getValue(i,j), getValue(i,j+1), getValue(i, j+2), random))
+							return true;
+							break;
+						case PLUSMINUSMULTDIV: if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i, j+1), getValue(i, j+2), random))
+							return true;
+							break;
+						}
 					}
 				}
 				if (j+1 < model.getHeight() && i+1 < model.getWidth()){
-					switch (gameValue){
-					case PLUSMINUS: if (PlusMinusCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1,j+1), random))
-						return true;
-						if (PlusMinusCheck.check(getValue(i,j), getValue(i, j+1), getValue(i+1, j), random))
+					if (! getStriked(i, j) && ! getStriked(i+1, j) && ! getStriked(i+1, j+1)){
+						switch (gameValue){
+						case PLUSMINUS: if (PlusMinusCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1,j+1), random))
+								return true;
+							break;
+						case MULITDIV: if (MultDivCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1, j+1), random))
 							return true;
-						break;
-					case MULITDIV: if (MultDivCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1, j+1), random))
-						return true;
-						if (MultDivCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1, j+1), random))
-							return true;
-						break;
-					case PLUSMINUSMULTDIV: if (MultDivPlusMinusCheck.check(getValue(i,j),getValue(i+1, j), getValue(i+1, j+1), random))
-							return true;
-						if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+1, j+1), random))
-							return true;
-						break;
+							break;
+						case PLUSMINUSMULTDIV: if (MultDivPlusMinusCheck.check(getValue(i,j),getValue(i+1, j), getValue(i+1, j+1), random))
+								return true;
+							break;
+						}
+					}
+					if (! getStriked(i, j) && ! getStriked(i+1, j) && !getStriked(i+1, j+1)){
+						switch(gameValue){
+						case PLUSMINUS: 
+							if (PlusMinusCheck.check(getValue(i,j), getValue(i, j+1), getValue(i+1, j), random))
+								return true;
+							break;
+						case MULITDIV:
+							if (MultDivCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1, j+1), random))
+								return true;
+							break;
+						case PLUSMINUSMULTDIV:
+							if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+1, j+1), random))
+								return true;
+							break;
+					}
+						}
 					}
 				}
 			}
