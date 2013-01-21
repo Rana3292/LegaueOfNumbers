@@ -45,23 +45,25 @@ public class SideBar implements Observer {
 			this.handwritting = Font.createFont(Font.PLAIN, is);//.deriveFont(Font.PLAIN, 20f);*/
 		} catch (IOException e) {
 			System.out.println("Probleme beim I/O");
-			e.printStackTrace();
+		//	e.printStackTrace();
 		} catch (NullPointerException e){
 			try {
 				myStream = new BufferedInputStream(new FileInputStream("GrungeHandwriting.ttf"));
 			} catch (FileNotFoundException e1) {
 				System.out.println("File konnte nicht gefunden werden.");
-				e1.printStackTrace();
+			//	e1.printStackTrace();
 			}
 		}
 		try {
 			handwritting = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 30);
 		} catch (FontFormatException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("FontFormatException");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("IO Exception");
 		}
 	
 		pointsPlayerA =0;
@@ -156,6 +158,8 @@ public class SideBar implements Observer {
 	private void setDesign(Component c){
 		if (handwritting != null){
 			c.setFont(handwritting);
+		}else{
+			c.setFont(new Font("Helvetica", Font.BOLD, 26));
 		}
 		c.setBackground(Color.DARK_GRAY);
 		c.setForeground(Color.white);

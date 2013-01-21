@@ -66,23 +66,21 @@ public class Board extends Observable{
 			this.handwritting = Font.createFont(Font.PLAIN, is);//.deriveFont(Font.PLAIN, 20f);*/
 		} catch (IOException e) {
 			System.out.println("Probleme beim I/O");
-			e.printStackTrace();
 		} catch (NullPointerException e){
 			try {
 				myStream = new BufferedInputStream(new FileInputStream("GrungeHandwriting.ttf"));
 			} catch (FileNotFoundException e1) {
-				System.out.println("File konnte nicht gefunden werden.");
-				e1.printStackTrace();
+				System.out.println("Font-File konnte nicht gefunden werden.");
 			}
 		}
 		try {
 			handwritting = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 30);
 		} catch (FontFormatException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Font Format Exception");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Probleme beim Laden der Schrift");
 		}
 		//Schriftart verwenden
 		setDesign(panel);
@@ -382,19 +380,19 @@ public class Board extends Observable{
 							switch (gameValue){
 							case PLUSMINUS:
 								if (PlusMinusCheck.check(getValue(i,j),getValue(i+1,j),getValue(i+2,j), random)){
-									System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+2 + ";" + j);
+									//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+2 + ";" + j);
 									return true;
 								}
 								break;
 							case MULITDIV:
 								if (MultDivCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+2,j), random)){
-									System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+2 + ";" + j);
+									//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+2 + ";" + j);
 									return true;
 								}
 								break;
 							case PLUSMINUSMULTDIV:
 								if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+2, j), random)){
-									System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+2 + ";" + j);
+									//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+2 + ";" + j);
 									return true;
 								}
 								break;
@@ -407,17 +405,17 @@ public class Board extends Observable{
 					if (!(getStriked(i, j) || getStriked(i, j+1) || getStriked(i, j+2))){
 						switch (gameValue){
 						case PLUSMINUS: if (PlusMinusCheck.check(getValue(i,j), getValue(i,j+1), getValue(i, j+2), random)){
-							System.out.println("i " + i + "j " + j + " | " + i + ";" + j+1 + "|" + i + ";" + j+2);
+							//System.out.println("i " + i + "j " + j + " | " + i + ";" + j+1 + "|" + i + ";" + j+2);
 							return true;
 						}
 							break;
 						case MULITDIV: if (MultDivCheck.check(getValue(i,j), getValue(i,j+1), getValue(i, j+2), random)){
-							System.out.println("i " + i + "j " + j + " | " + i + ";" + j+1 + "|" + i + ";" + j+2);
+							//System.out.println("i " + i + "j " + j + " | " + i + ";" + j+1 + "|" + i + ";" + j+2);
 							return true;
 						}
 							break;
 						case PLUSMINUSMULTDIV: if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i, j+1), getValue(i, j+2), random)){
-							System.out.println("i " + i + "j " + j + " | " + i + ";" + j+1 + "|" + i + ";" + j+2);
+							//System.out.println("i " + i + "j " + j + " | " + i + ";" + j+1 + "|" + i + ";" + j+2);
 							return true;
 						}
 							break;
@@ -428,17 +426,17 @@ public class Board extends Observable{
 					if (! (getStriked(i, j) || getStriked(i+1, j) || getStriked(i+1, j+1))){
 						switch (gameValue){
 						case PLUSMINUS: if (PlusMinusCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1,j+1), random)){
-							System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
+							//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
 							return true;
 						}
 							break;
 						case MULITDIV: if (MultDivCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1, j+1), random)){
-							System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
+							//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
 							return true;
 						}
 							break;
 						case PLUSMINUSMULTDIV: if (MultDivPlusMinusCheck.check(getValue(i,j),getValue(i+1, j), getValue(i+1, j+1), random)){
-							System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
+							//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
 							return true;
 						}
 							break;
@@ -448,19 +446,19 @@ public class Board extends Observable{
 						switch(gameValue){
 						case PLUSMINUS: 
 							if (PlusMinusCheck.check(getValue(i,j), getValue(i, j+1), getValue(i+1, j), random)){
-								System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
+								//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
 								return true;
 							}
 							break;
 						case MULITDIV:
 							if (MultDivCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1, j+1), random)){
-								System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
+								//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
 								return true;
 							}
 							break;
 						case PLUSMINUSMULTDIV:
 							if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+1, j+1), random)){
-								System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
+								//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
 								return true;
 							}
 							break;
@@ -479,6 +477,8 @@ public class Board extends Observable{
 	private void setDesign(Component c){
 		if (handwritting != null){
 			c.setFont(handwritting);
+		}else{
+			c.setFont(new Font("Helvetica", Font.BOLD, 26));
 		}
 		c.setBackground(Color.DARK_GRAY);
 		c.setForeground(Color.white);
