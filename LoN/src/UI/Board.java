@@ -16,6 +16,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Observable;
 import java.util.Random;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
+
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -50,11 +55,22 @@ public class Board extends Observable{
 	 */
 	
 	public Board( JPanel	panel, int gameValue, int maxNumber){
+		try{
+			handler = new FileHandler("Logging.txt");
+		} catch (IOException e){ 
+			handler = new ConsoleHandler();
+		}
+		log.addHandler(handler);
+		
 		this.panel = panel;
 		this.gameValue = gameValue;
 		this.maxNumber = maxNumber;
 		handwritting = null;
 		
+
+		
+		this.handwritting = FontLoader.loadGrungeFont();
+
 		//Schriftart laden
 		InputStream myStream = null;
 		try {
@@ -83,6 +99,7 @@ public class Board extends Observable{
 			System.out.println("Probleme beim Laden der Schrift");
 		}
 		//Schriftart verwenden
+		handwritting = FontLoader.loadGrungeFont();
 		setDesign(panel);
 		reset();
 		panel.setSize(model.getWidth()*50, model.getHeight()*50);
@@ -161,8 +178,10 @@ public class Board extends Observable{
 								}
 								if (!checked){
 									validAnswer = false;
+									log.finest("Wrong answer!");
 								}
 								else{
+									log.finest("Right answer!");
 									createNewNumber();
 								}
 								
@@ -257,6 +276,7 @@ public class Board extends Observable{
 				}
 			}
 		}
+		log.fine("Resetting of the gamefield is " + ((counter == 0) ? "valid" : "invalid" )+ ".");
 		System.out.println(counter);
 		if (counter == 0){
 			update();
@@ -266,6 +286,7 @@ public class Board extends Observable{
 		return false;
 	}
 	private void createNewNumber(){
+		log.fine("Created the new Number " + randomNumber());
 		System.out.println("New generated number " + randomNumber());
 	}
 	/**
@@ -354,8 +375,10 @@ public class Board extends Observable{
 		}
 		for (int i=0; i < 10;  i++){
 			ret = r.nextInt(max);
+			log.finest("Created the new random number " + ret);
 			if (controllRandomNumber(ret)){
 				actualSearchedNumber = ret;
+				log.finer("New randomnumber is: " + ret);
 				return ret;
 			}
 		}
@@ -380,19 +403,24 @@ public class Board extends Observable{
 							switch (gameValue){
 							case PLUSMINUS:
 								if (PlusMinusCheck.check(getValue(i,j),getValue(i+1,j),getValue(i+2,j), random)){
-									//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+2 + ";" + j);
+									log.finest("Random number can be found at [i|j] [" + i + "|" + j + "],[" 
+											+ i+1 + "|" + j + "],[" + i+2 + "|" + j + "]");
 									return true;
 								}
 								break;
 							case MULITDIV:
 								if (MultDivCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+2,j), random)){
-									//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+2 + ";" + j);
+									log.finest("Random number can be found at [i|j] [" + i + "|" + j + "],[" 
+											+ i+1 +"],[" +j + "],[" + i+2 + "],[" + j + "]");
+
 									return true;
 								}
 								break;
 							case PLUSMINUSMULTDIV:
 								if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+2, j), random)){
-									//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+2 + ";" + j);
+									log.finest("Random number can be found at [i|j] [" + i + "|" + j + "],[" +
+											i+1 + "],[" + j + "],[" + i+2 + "],[" + j +"]");
+
 									return true;
 								}
 								break;
@@ -405,17 +433,21 @@ public class Board extends Observable{
 					if (!(getStriked(i, j) || getStriked(i, j+1) || getStriked(i, j+2))){
 						switch (gameValue){
 						case PLUSMINUS: if (PlusMinusCheck.check(getValue(i,j), getValue(i,j+1), getValue(i, j+2), random)){
-							//System.out.println("i " + i + "j " + j + " | " + i + ";" + j+1 + "|" + i + ";" + j+2);
+							log.finest("Random number can be found at [i|j] [" + i + "],[" + j + "],["+
+									i + "|" + j + "],[" + i + "|" + j+2 + "]");
+
 							return true;
 						}
 							break;
 						case MULITDIV: if (MultDivCheck.check(getValue(i,j), getValue(i,j+1), getValue(i, j+2), random)){
-							//System.out.println("i " + i + "j " + j + " | " + i + ";" + j+1 + "|" + i + ";" + j+2);
+							log.finest("Random number can be found at [i|j] [" + i + "],[" + j + "],["+
+									i + "|" + j + "],[" + i + "|" + j+2 + "]");
 							return true;
 						}
 							break;
 						case PLUSMINUSMULTDIV: if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i, j+1), getValue(i, j+2), random)){
-							//System.out.println("i " + i + "j " + j + " | " + i + ";" + j+1 + "|" + i + ";" + j+2);
+							log.finest("Random number can be found at [i|j] [" + i + "],[" + j + "],["+
+									i + "|" + j + "],[" + i + "|" + j+2 + "]");
 							return true;
 						}
 							break;
@@ -426,17 +458,20 @@ public class Board extends Observable{
 					if (! (getStriked(i, j) || getStriked(i+1, j) || getStriked(i+1, j+1))){
 						switch (gameValue){
 						case PLUSMINUS: if (PlusMinusCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1,j+1), random)){
-							//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
+							log.finest("Random number can be found at [i|j] [" + i + "|" + j + "],[" +
+									i+1 + "|" + j + "],[" + i+1 + "|" + j+1 + "]");
 							return true;
 						}
 							break;
 						case MULITDIV: if (MultDivCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1, j+1), random)){
-							//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
+							log.finest("Random number can be found at [i|j] [" + i + "|" + j + "],[" +
+									i+1 + "|" + j + "],[" + i+1 + "|" + j+1 + "]");
 							return true;
 						}
 							break;
 						case PLUSMINUSMULTDIV: if (MultDivPlusMinusCheck.check(getValue(i,j),getValue(i+1, j), getValue(i+1, j+1), random)){
-							//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
+							log.finest("Random number can be found at [i|j] [" + i + "|" + j + "],[" +
+									i+1 + "|" + j + "],[" + i+1 + "|" + j+1 + "]");
 							return true;
 						}
 							break;
@@ -446,19 +481,22 @@ public class Board extends Observable{
 						switch(gameValue){
 						case PLUSMINUS: 
 							if (PlusMinusCheck.check(getValue(i,j), getValue(i, j+1), getValue(i+1, j), random)){
-								//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
+								log.finest("Random number can be found at [i|j] [" + i + "|" + j + "],[" 
+										+ i + "|" + j+1 + "],[" + i+1 + "|" + j + "]");
 								return true;
 							}
 							break;
 						case MULITDIV:
 							if (MultDivCheck.check(getValue(i,j), getValue(i+1, j), getValue(i+1, j+1), random)){
-								//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
+								log.finest("Random number can be found at [i|j] [" + i + "|" + j + "],[" 
+										+ i + "|" + j+1 + "],[" + i+1 + "|" + j + "]");
 								return true;
 							}
 							break;
 						case PLUSMINUSMULTDIV:
 							if (MultDivPlusMinusCheck.check(getValue(i,j), getValue(i+1,j), getValue(i+1, j+1), random)){
-								//System.out.println("i " + i + "j " + j + " | " + i+1 + ";" + j + "|" + i+1 + ";" + j+1);
+								log.finest("Random number can be found at [i|j] [" + i + "|" + j + "],[" 
+										+ i + "|" + j+1 + "],[" + i+1 + "|" + j + "]");
 								return true;
 							}
 							break;
@@ -493,4 +531,6 @@ public class Board extends Observable{
 	private JButton[][] buttons;
 	private GameField model;
 	private JPanel panel;
+	private final static Logger log = Logger.getLogger(Board.class .getName());
+	private Handler handler;
 }
