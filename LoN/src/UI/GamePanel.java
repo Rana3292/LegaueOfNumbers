@@ -220,7 +220,5 @@ class GamePanel extends JFrame{
 	private final static Logger log = Logger.getLogger(Board.class .getName());
 	private Handler handler;
 
-	public static void main(String[] args) {
-		new GamePanel();
-	}
+	
 }
