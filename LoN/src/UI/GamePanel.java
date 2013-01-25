@@ -33,7 +33,7 @@ import javax.swing.WindowConstants;
  *
  */
 
-class GamePanel extends JFrame{
+public class GamePanel extends JFrame{
 
 /** Costum constructor for the GamePanel
  * 
@@ -217,7 +217,7 @@ class GamePanel extends JFrame{
 	private JMenu mHelp;
 	private JMenuItem miHelp;
 	private JMenuItem miWrittenBy;
-	private final static Logger log = Logger.getLogger(Board.class .getName());
+	private final static Logger log = Logger.getLogger(GamePanel.class .getName());
 	private Handler handler;
 
 	

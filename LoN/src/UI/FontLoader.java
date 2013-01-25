@@ -34,11 +34,9 @@ public class FontLoader {
 			//File fontFile = new File(this.getClass().getResource("../../../Fonts/Handwritting.ttf").toURI());
 			this.handwritting = Font.createFont(Font.PLAIN, is);//.deriveFont(Font.PLAIN, 20f);*/
 		} catch (FontFormatException e) {
-			System.out.println("Probleme mit dem Lesen der Schriftart");
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		} catch (IOException e) {
-			System.out.println("Probleme beim I/O");
-			e.printStackTrace();
+			log.severe(e.getMessage());
 		} 
 		return ret;
 	}
