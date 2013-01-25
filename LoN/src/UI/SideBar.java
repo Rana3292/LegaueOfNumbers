@@ -20,6 +20,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,51 +36,26 @@ import javax.swing.JPanel;
  *
  */
 public class SideBar implements Observer {
-	public SideBar(JPanel panel, final Board board){
-		handwritting = null;
-		//Schriftart laden
-		InputStream myStream = null;
-		try {
-			Path Pat = Paths.get(Board.class.getResource("GrungeHandwriting.ttf").toString());
-			String ParsedPat = Pat.toString();
-			myStream = new BufferedInputStream(new FileInputStream(ParsedPat)); 	 
-			/*InputStream is = this.getClass().getResourceAsStream("GrungeHandwriting.ttf");
-			//File fontFile = new File(this.getClass().getResource("../../../Fonts/Handwritting.ttf").toURI());
-			this.handwritting = Font.createFont(Font.PLAIN, is);//.deriveFont(Font.PLAIN, 20f);*/
-		} catch (IOException e) {
-			System.out.println("Probleme beim I/O");
-		//	e.printStackTrace();
-		} catch (NullPointerException e){
-			try {
-				myStream = new BufferedInputStream(new FileInputStream("GrungeHandwriting.ttf"));
-			} catch (FileNotFoundException e1) {
-				System.out.println("File konnte nicht gefunden werden.");
-			//	e1.printStackTrace();
-			}
+	public SideBar(JPanel p, final Board board){
+		try{
+			handler = new FileHandler("Logging.txt");
+		} catch (IOException e){ 
+			handler = new ConsoleHandler();
 		}
-		try {
-			handwritting = Font.createFont(Font.TRUETYPE_FONT, myStream).deriveFont(Font.PLAIN, 30);
-		} catch (FontFormatException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			System.out.println("FontFormatException");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			System.out.println("IO Exception");
-		}
+		log.addHandler(handler);
+		handwritting = FontLoader.loadGrungeFont();
+		
 	
 		pointsPlayerA =0;
 		pointsPlayerB = 0;
 		movePlayer = -1;
-		this.panel = panel;
+		this.panel = p;
 		panel.setLayout(new GridLayout(3,1));
 		setDesign(panel);
 		this.board = board;
 		searchNumber= new JLabel(board.getActualSearchedNumber() + "");
 		setDesign(searchNumber);
 		lValidNumber = new JLabel();
-		//lValidNumber.setIcon(new ImageIcon("richtig.png"));
 		
 		pPlayers = new JPanel(new GridLayout(4,1));
 		setDesign(pPlayers);
@@ -133,8 +112,10 @@ public class SideBar implements Observer {
 		if (board.getValidAnswer()){
 			switch(movePlayer){
 			case moveByA: pointsPlayerA++;
+				log.finer("Player A was right!");
 				break;
 			case moveByB: pointsPlayerB++;
+				log.finer("Player B was right!");
 				break;
 			}
 			lValidNumber.setIcon(new ImageIcon("richtig.png"));
@@ -142,8 +123,10 @@ public class SideBar implements Observer {
 		else{
 			switch(movePlayer){
 			case moveByA: pointsPlayerB++;
+				log.finer("Player A was wrong!");
 				break;
 			case moveByB: pointsPlayerA++;
+				log.finer("Player B was wrong!");
 				break;
 			}
 			lValidNumber.setIcon(new ImageIcon("falsch.png"));
@@ -180,4 +163,6 @@ public class SideBar implements Observer {
 	private Font handwritting;
 	private static final int moveByA = 0;
 	private static final int moveByB = 1;
+	private final static Logger log = Logger.getLogger(Board.class .getName());
+	private Handler handler;
 }
